@@ -1,0 +1,49 @@
+<html ng-app="Go" ng-controller="Go">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+
+    <script src="./js/rules.js"></script>
+    <script src="./js/points.js"></script>
+    <script src="./js/master.js"></script>
+</head>
+
+<body>
+    <div class="settings">
+        <fieldset> Settings:
+            <div class="setting">
+                <label> Feld-Grösse: </label>
+                <input ng-model="fieldSize" ng-change="changeFieldSize(fieldSize)" ng-disabled="{{gameStarted}}" type="number" min="9" max="20">
+            </div>
+            <div class="setting">
+                <label>Punkte Automatisch zählen:</label>
+                <input type="checkbox" ng-model="autoCount">
+            </div>
+            <div class="setting" ng-if="!autoCount">
+                <button ng-click="countPoints()">Punkte jetzt zählen</button>
+            </div>
+        </fieldset>
+        <fieldset> Punkte:
+            <div class="setting">
+                <p>Weiss:   {{points[1]}}</p>
+                <p>schwarz: {{points[2]}}</p>
+            </div>
+            <div class="setting">
+                <button ng-click="pass()">passen</button>
+            </div>
+        </fieldset>
+    </div>
+    <div class="board">
+        <div ng-repeat="row in model track by $index" class="row" ng-style="rowStyle">
+            <div ng-repeat="field in row track by $index" class="field" ng-style="fieldStyle" ng-click="toggleStone($index, $parent.$index)" ng-class="previewClasses[currentPlayer]">
+                <div class="fieldDisplay" ng-class="classes[field]"></div>
+            </div>
+            <div class="clearFloat"></div>
+        </div>
+    </div>
+</body>
+
+</html>
